@@ -1,17 +1,15 @@
-#include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
-#include <PubSubClient.h>
 #include <Ticker.h>
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
-#include <WiFiManager.h>
+#include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
+#include <Adafruit_NeoPixel.h>
 #include "DHT.h"
 #include "config.h"
 
 Ticker ticker;
 WiFiClient espClient;
-PubSubClient client(espClient);
 #define DHTPIN 12
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
@@ -79,7 +77,7 @@ void loop() {
   Serial.print(F("Humidity: "));
   Serial.print(h);
   Serial.print(F("%  Temperature: "));
-  Serial.print(f);
+  Serial.println(f);
 
   mainleds.clear();
 
@@ -120,7 +118,6 @@ void loop() {
     Serial.printf("[HTTP] Unable to connect\n");
   }
 
-  delay(600000);
-
   Serial.println("");
+  delay(600000);
 }
