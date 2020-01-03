@@ -5,7 +5,8 @@
             "includePath": [
                 "/Users/briankinney/Documents/Arduino/libraries/ESP8266WiFi/src",
                 "/Users/briankinney/Library/Arduino15/packages/esp8266/tools/**",
-                "/Users/briankinney/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.2/**"
+                "/Users/briankinney/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
+                "/Users/briankinney/Library/Arduino15/packages/esp8266/hardware/esp8266/2.6.3/**"
             ],
             "forcedInclude": [],
             "macFrameworkPath": [
