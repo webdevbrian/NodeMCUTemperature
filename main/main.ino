@@ -99,7 +99,7 @@ void checkTempCallback() {
 
   Serial.print(F("Humidity: "));
   Serial.print(h);
-  Serial.print(F("%  Temperature: "));
+  Serial.print(F("% Temperature: "));
   Serial.print(f);
   Serial.println("F");
   mainleds.clear();
