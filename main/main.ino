@@ -156,26 +156,19 @@ byte sendEmail() {
   } if (!emailResp()) {
     return 0;
   }
-  //
+
   Serial.println(F("Sending EHLO"));
   espClient.println("EHLO www.example.com");
   if (!emailResp()) {
     return 0;
   }
-    
-  //
-  /*Serial.println(F("Sending TTLS"));
-  espClient.println("STARTTLS");
-  if (!emailResp()) 
-  return 0;*/
-  //  
+
   Serial.println(F("Sending auth login"));
   espClient.println("AUTH LOGIN");
   if (!emailResp()) {
     return 0;
   }
-  
-  //  
+
   Serial.println(F("Sending User"));
   // Change this to your base64, ASCII encoded username
   /*
@@ -186,7 +179,6 @@ byte sendEmail() {
     return 0;
   }
 
-  //
   Serial.println(F("Sending Password"));
   // change to your base64, ASCII encoded password
   /*
@@ -198,7 +190,6 @@ byte sendEmail() {
     return 0;
   }
 
-  //
   Serial.println(F("Sending From"));
   // Sender email address
   espClient.println(F("MAIL From: phrozen755@gmail.com"));
@@ -213,7 +204,6 @@ byte sendEmail() {
     return 0;
   }
 
-  //
   Serial.println(F("Sending DATA"));
   espClient.println(F("DATA"));
   if (!emailResp()) {
@@ -237,14 +227,12 @@ byte sendEmail() {
     return 0;
   }
 
-  //
   Serial.println(F("Sending QUIT"));
   espClient.println(F("QUIT"));
   if (!emailResp()) {
     return 0;
   }
 
-  //
   espClient.stop();
   Serial.println(F("disconnected"));
   return 1;
