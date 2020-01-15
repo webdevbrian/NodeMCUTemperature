@@ -17,11 +17,11 @@ WiFiClient espClient;
 DHT dht(DHTPIN, DHTTYPE);
 
 // SMTP Settings
-char server[] = "mail.smtp2go.com";
+char server[] = "mail.smtp2go.com"; // 1000 requests max a day for the free plan
 
 // LED
 #define MAINLEDPIN 14 // D5
-#define MAINLEDS 1
+#define MAINLEDS 1 // How many LEDs
 Adafruit_NeoPixel mainleds(MAINLEDS, MAINLEDPIN, NEO_GRB + NEO_KHZ800);
 
 // Register tasks
@@ -148,22 +148,21 @@ void loop() {
 }
 
 byte sendEmail() {
-  if (espClient.connect(server, 2525) == 1) 
-  {
+  if (espClient.connect(server, 2525) == 1) {
     Serial.println(F("connected"));
-  } 
-  else 
-  {
+  } else {
     Serial.println(F("connection failed"));
     return 0;
-  }
-  if (!emailResp()) 
+  } if (!emailResp()) {
     return 0;
+  }
   //
   Serial.println(F("Sending EHLO"));
   espClient.println("EHLO www.example.com");
-  if (!emailResp()) 
+  if (!emailResp()) {
     return 0;
+  }
+    
   //
   /*Serial.println(F("Sending TTLS"));
   espClient.println("STARTTLS");
@@ -172,8 +171,10 @@ byte sendEmail() {
   //  
   Serial.println(F("Sending auth login"));
   espClient.println("AUTH LOGIN");
-  if (!emailResp()) 
+  if (!emailResp()) {
     return 0;
+  }
+  
   //  
   Serial.println(F("Sending User"));
   // Change this to your base64, ASCII encoded username
@@ -181,8 +182,10 @@ byte sendEmail() {
   For example, the email address test@gmail.com would be encoded as dGVzdEBnbWFpbC5jb20=
   */
   espClient.println(SMTPUSER); //base64, ASCII encoded Username
-  if (!emailResp()) 
+  if (!emailResp()) {
     return 0;
+  }
+
   //
   Serial.println(F("Sending Password"));
   // change to your base64, ASCII encoded password
@@ -191,24 +194,32 @@ byte sendEmail() {
   it would be encoded as dGVzdHBhc3N3b3Jk
   */
   espClient.println(SMTPPASSWORD);//base64, ASCII encoded Password
-  if (!emailResp()) 
+  if (!emailResp()) {
     return 0;
+  }
+
   //
   Serial.println(F("Sending From"));
   // Sender email address
   espClient.println(F("MAIL From: phrozen755@gmail.com"));
-  if (!emailResp()) 
+  if (!emailResp()) {
     return 0;
+  }
+
   // Recipient address
   Serial.println(F("Sending To"));
   espClient.println(F("RCPT To: webdevbrian@gmail.com"));
-  if (!emailResp()) 
+  if (!emailResp()) {
     return 0;
+  }
+
   //
   Serial.println(F("Sending DATA"));
   espClient.println(F("DATA"));
-  if (!emailResp()) 
+  if (!emailResp()) {
     return 0;
+  }
+
   Serial.println(F("Sending email"));
   // Recipient address
   espClient.println(F("To:  webdevbrian@gmail.com"));
@@ -220,34 +231,35 @@ byte sendEmail() {
   espClient.print(F("F at "));
   espClient.print((h));
   espClient.println(F("% humidity"));
-  // This last . is needed
+  // This last . is needed ... don't ask me!
   espClient.println(F("."));
-  if (!emailResp()) 
+  if (!emailResp()) {
     return 0;
+  }
+
   //
   Serial.println(F("Sending QUIT"));
   espClient.println(F("QUIT"));
-  if (!emailResp()) 
+  if (!emailResp()) {
     return 0;
+  }
+
   //
   espClient.stop();
   Serial.println(F("disconnected"));
   return 1;
 }
 
-byte emailResp()
-{
+byte emailResp() {
   byte responseCode;
   byte readByte;
   int loopCount = 0;
 
-  while (!espClient.available()) 
-  {
+  while (!espClient.available()) {
     delay(1);
     loopCount++;
     // Wait for 20 seconds and if nothing is received, stop.
-    if (loopCount > 20000) 
-    {
+    if (loopCount > 20000) {
       espClient.stop();
       Serial.println(F("\r\nTimeout"));
       return 0;
@@ -255,16 +267,15 @@ byte emailResp()
   }
 
   responseCode = espClient.peek();
-  while (espClient.available())
-  {
+  while (espClient.available()) {
     readByte = espClient.read();
     Serial.write(readByte);
   }
 
-  if (responseCode >= '4')
-  {
+  if (responseCode >= '4') {
     //  efail();
     return 0;
   }
+
   return 1;
 }
