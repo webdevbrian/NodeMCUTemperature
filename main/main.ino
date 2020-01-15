@@ -126,20 +126,20 @@ void checkTempCallback() {
   mainleds.setBrightness(80);
   mainleds.show();
 
- HTTPClient http;
- String PushBoxHTTP = String("http://api.pushingbox.com/pushingbox?devid=") + PUSHINGBOXDEVID + String("&room=garage&temperature=") + f + String("&humidity=") + h;
+  HTTPClient http;
+  String PushBoxHTTP = String("http://api.pushingbox.com/pushingbox?devid=") + PUSHINGBOXDEVID + String("&room=garage&temperature=") + f + String("&humidity=") + h;
 
- if (http.begin(PushBoxHTTP)) {
-  int httpCode = http.GET();
+  if (http.begin(PushBoxHTTP)) {
+    int httpCode = http.GET();
 
-  if (httpCode > 0) {
-    String payload = http.getString();
-    Serial.println("HTTP Get succeeded Payload: " + payload);
-  }
+    if (httpCode > 0) {
+      String payload = http.getString();
+      Serial.println("HTTP Get succeeded Payload: " + payload);
+    }
 
-  http.end();
-  } else {
-    Serial.printf("[HTTP] Unable to connect\n");
+    http.end();
+    } else {
+      Serial.printf("[HTTP] Unable to connect\n");
   }
 }
 
